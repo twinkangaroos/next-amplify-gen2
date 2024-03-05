@@ -17,6 +17,9 @@ import { revalidatePath } from "next/cache"
 import { AuthGetCurrentUserServer, cookiesClient } from "@/utils/amplify-utils"
 import Logout from "@/components/Logout"
 
+import "@aws-amplify/ui-react/styles.css";
+import TodoList from "@/components/TodoList";
+
 async function App() {
     const user = await AuthGetCurrentUserServer()
     const { data: todos } = await cookiesClient.models.Todo.list()
@@ -33,7 +36,14 @@ async function App() {
     }
 
     return (
-        <>
+        <div
+            style={{
+                maxWidth: '500px',
+                margin: '0 auto',
+                textAlign: 'center',
+                marginTop: '100px'
+            }}
+        >
             <h1>Hello, Amplify</h1>
             {user && <Logout />}
             <form action={addTodo}>
@@ -42,9 +52,11 @@ async function App() {
             </form>
             
             <ul>
-                {todos && todos.map((todo) => <li key={todo.id}>{todo.content}</li>)}
+                {todos && todos.map((todo) => 
+                    <li key={todo.id} style={{ listStyle: 'none' }}>{todo.content}</li>
+                )}
             </ul>
-        </>
+        </div>
     )
 }
 

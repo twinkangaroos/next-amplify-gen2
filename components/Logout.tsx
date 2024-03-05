@@ -7,14 +7,18 @@ export default function Logout() {
   const router = useRouter();
 
   return (
-    <button
-      onClick={async () => {
-        await signOut();
-        router.push("/login");
-      }}
-      className="px-2 bg-white text-black"
-    >
-      Sign out
-    </button>
+    <div style={{
+        marginBottom: '40px'
+    }}>
+      <button
+        onClick={async () => {
+          await signOut();
+          router.push("/login");
+        }}
+        className="px-2 bg-white text-black"
+      >
+        Sign out
+      </button>
+    </div>
   );
 }
