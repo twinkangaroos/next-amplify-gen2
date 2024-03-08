@@ -12,15 +12,17 @@ export default function TodoList() {
     async function listTodos() {
         const { data } = await client.models.Todo.list()
         setTodos(data)
+        console.log("CSR_todos=", data)
     }
 
     useEffect(() => {
-        // listTodos()
-        const sub = client.models.Todo.observeQuery().subscribe(({ items }) =>
-            setTodos([...items])
-        )
-
-        return () => sub.unsubscribe()
+        listTodos()
+        if (todos.length > 0) { // todos の長さが 0 より大きい場合にサブスクリプションを設定
+            const sub = client.models.Todo.observeQuery().subscribe(({ items }) =>
+                setTodos([...items])
+            )
+            return () => sub.unsubscribe()
+        }
     }, [])
 
     return (
@@ -32,13 +34,17 @@ export default function TodoList() {
                     done: false,
                     priority: 'medium'
                 })
-                console.log(errors, newTodo)
+                console.log("newTodo=", newTodo)
+                listTodos()
             }}>Create </button>
 
             <ul>
-                {todos.map((todo) => (
-                    <li key={todo.id}>{todo.content}</li>
-                ))}
+                {todos.length > 0 ?
+                    todos.map((todo) => (
+                        <li key={todo.id} style={{ listStyle: 'none' }}>{todo.content}</li>
+                    ))
+                    : ''
+                }
             </ul>
         </div>
     )

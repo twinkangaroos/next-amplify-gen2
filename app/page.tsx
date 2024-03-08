@@ -23,6 +23,7 @@ import TodoList from "@/components/TodoList";
 async function App() {
     const user = await AuthGetCurrentUserServer()
     const { data: todos } = await cookiesClient.models.Todo.list()
+    console.log("SSR_todos=", todos)
 
     async function addTodo(data: FormData) {
         "use server"
@@ -52,10 +53,14 @@ async function App() {
             </form>
             
             <ul>
-                {todos && todos.map((todo) => 
+                {todos && todos.length > 0 ?
+                    todos.map((todo) => 
                     <li key={todo.id} style={{ listStyle: 'none' }}>{todo.content}</li>
-                )}
+                    )
+                    : ''
+                }
             </ul>
+            <TodoList />
         </div>
     )
 }

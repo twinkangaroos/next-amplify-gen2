@@ -23,8 +23,9 @@ export async function middleware(request: NextRequest) {
   if (authenticated) {
     return response;
   }
-
-  return NextResponse.redirect(new URL("/login", request.url));
+  // for debug.
+  return response;
+  // return NextResponse.redirect(new URL("/login", request.url));
 }
 
 export const config = {
