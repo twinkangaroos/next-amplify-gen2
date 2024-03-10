@@ -22,7 +22,9 @@ import TodoList from "@/components/TodoList";
 
 async function App() {
     const user = await AuthGetCurrentUserServer()
-    const { data: todos } = await cookiesClient.models.Todo.list()
+    const { data: todos } = await cookiesClient.models.Todo.list({
+        authMode: 'iam'
+    })
     console.log("SSR_todos=", todos)
 
     async function addTodo(data: FormData) {

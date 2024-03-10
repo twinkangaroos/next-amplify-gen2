@@ -13,8 +13,10 @@ const schema = a.schema({
       content: a.string(),
       done: a.boolean(),
       priority: a.enum(['low', 'medium', 'high'])
-    })
-    .authorization([a.allow.public("iam")]),
+    }).authorization([
+      a.allow.private("iam"),
+      a.allow.public("iam").to(['read']),
+    ]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -22,7 +24,7 @@ export type Schema = ClientSchema<typeof schema>;
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: 'iam'
+    defaultAuthorizationMode: 'iam',
   },
 });
 

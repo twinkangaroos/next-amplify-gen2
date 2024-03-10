@@ -10,7 +10,9 @@ export default function TodoList() {
     const [todos, setTodos] = useState<Schema["Todo"][]>([])
 
     async function listTodos() {
-        const { data } = await client.models.Todo.list()
+        const { data } = await client.models.Todo.list({
+            authMode: 'iam'
+        })
         setTodos(data)
         console.log("CSR_todos=", data)
     }
